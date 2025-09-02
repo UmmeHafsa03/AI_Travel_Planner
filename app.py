@@ -112,23 +112,27 @@ def create_checklist_pdf(city):
 st.sidebar.header("📜 Saved Itineraries")
 if st.session_state["history"]:
     for i, entry in enumerate(st.session_state["history"], 1):
-        st.sidebar.markdown(f"**{i}. {entry['City']} ({entry['Days']} days)** — {entry['Interests']}")
-    # Download buttons
+        st.sidebar.markdown(f"{i}. {entry['City']} ({entry['Days']} days) — {entry['Interests']}")
+
+    # Get the latest itinerary
     latest_itinerary = st.session_state["history"][-1]
+
+    # Download buttons with emojis
     st.sidebar.download_button(
-        "⬇️ Download Latest Itinerary (PDF)",
+        "📥 📄 Download Latest Itinerary (PDF)",
         create_pdf_single(latest_itinerary),
         f"{latest_itinerary['City']}_Itinerary.pdf",
         "application/pdf"
     )
     st.sidebar.download_button(
-        "⬇️ Download Travel Checklist (PDF)",
+        "📥 📝 Download Travel Checklist (PDF)",
         create_checklist_pdf(latest_itinerary["City"]),
         f"{latest_itinerary['City']}_Checklist.pdf",
         "application/pdf"
     )
 else:
     st.sidebar.info("📜 Saved itineraries or history will appear here after generating your first trip!")
+
 
 # -------------------- BUDGET ESTIMATOR --------------------
 def estimate_budget(days):
@@ -137,13 +141,13 @@ def estimate_budget(days):
     travel_per_day = random.randint(500, 2000)
     total = (hotel_per_day + food_per_day + travel_per_day) * days
     breakdown = f"""
-**Estimated Budget (INR)**  
+Estimated Budget (INR)  
 
 - 🏨 Hotel: ₹{hotel_per_day} x {days} days = ₹{hotel_per_day*days}  
-- 🍽️ Food: ₹{food_per_day} x {days} days = ₹{food_per_day*days}  
+- 🍽 Food: ₹{food_per_day} x {days} days = ₹{food_per_day*days}  
 - 🚗 Travel: ₹{travel_per_day} x {days} days = ₹{travel_per_day*days}  
 
-**Total ≈ ₹{total}**
+Total ≈ ₹{total}
 """
     return breakdown
 
@@ -152,7 +156,7 @@ col1, col2, col3 = st.columns([1, 2, 1])
 with col2:
     with st.form("planner_form_unique"):
         city = st.text_input("📍 Enter the city name")
-        days = st.number_input("🗓️ Number of days", min_value=1, max_value=30, value=3)
+        days = st.number_input("🗓 Number of days", min_value=1, max_value=30, value=3)
         interests = st.text_input("💡 Your interests", placeholder="Food, Nature, Culture")
         submitted = st.form_submit_button("🚀 Generate Itinerary")
 
@@ -167,9 +171,9 @@ with col2:
                         itinerary = planner.create_itineary()
                     except Exception:
                         itinerary = f"""
-                        **Day 1**: Arrival at {city}, evening city walk.  
-                        **Day 2**: Explore cultural spots + try local food.  
-                        **Day 3**: Relax, shopping & farewell dinner.  
+                        Day 1: Arrival at {city}, evening city walk.  
+                        Day 2: Explore cultural spots + try local food.  
+                        Day 3: Relax, shopping & farewell dinner.  
                         """
 
                 st.success("🎉 Your personalized travel itinerary is ready!")
@@ -190,7 +194,7 @@ with col2:
                 st.info(budget_text)
 
             else:
-                st.warning("⚠️ Please fill all fields to continue.")
+                st.warning("⚠ Please fill all fields to continue.")
 
 # -------------------- IMAGE UPLOAD --------------------
 st.subheader("📸 Upload Your Travel Images")

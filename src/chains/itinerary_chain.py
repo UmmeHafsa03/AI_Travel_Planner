@@ -5,7 +5,7 @@ from src.config.config import GROQ_API_KEY
 # ✅ Groq LLM setup
 llm = ChatGroq(
     groq_api_key=GROQ_API_KEY,
-    model_name="llama3-70b-8192",  # or "llama-3.3-70b-versatile" if that's correct
+    model_name="llama-3.3-70b-versatile",  # or "llama-3.3-70b-versatile" if that's correct
     temperature=0.3
 )
 
